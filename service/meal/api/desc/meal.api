@@ -1,0 +1,53 @@
+syntax = "v1"
+
+info (
+	title: "meal-api"
+	desc:  "meal-api"
+)
+
+import (
+	"types.api"
+)
+
+@server (
+	prefix: user/category
+	group:  category
+)
+service meal {
+	@handler getCategoryList
+	get /list (GetCategoryListReq) returns (GetCategoryListResp)
+}
+
+@server (
+	prefix: user/setmeal
+	group:  setmeal
+)
+service meal {
+	@handler getSetmealsByCategoryIdQuery
+	get /list (GetSetmealsByCategoryIdQueryReq) returns (GetSetmealsByCategoryIdResp)
+
+	@handler getSetmealsByCategoryId
+	get /list/:categoryId (GetSetmealsByCategoryIdReq) returns (GetSetmealsByCategoryIdResp)
+
+	@handler getSetmealsById
+	get /:id (GetSetmealsByIdReq) returns (GetSetmealsByIdResp)
+
+	@handler getDishSimplesById
+	get /dish/:id (GetDishSimplesByIdReq) returns (GetDishSimplesByIdResp)
+}
+
+@server (
+	prefix: user/dish
+	group:  dish
+)
+service meal {
+	@handler getDishesByCategoryIdQuery
+	get /list (GetDishesByCategoryIdQueryReq) returns (GetDishesByCategoryIdResp)
+
+	@handler getDishesByCategoryId
+	get /list/:categoryId (GetDishesByCategoryIdReq) returns (GetDishesByCategoryIdResp)
+
+	@handler getDishesById
+	get /dish/:dishId (GetDishesByIdReq) returns (GetDishesByIdResp)
+}
+

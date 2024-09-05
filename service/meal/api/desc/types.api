@@ -1,0 +1,141 @@
+type Default {
+    Code int64 `json:"code"`
+    Msg string `json:"msg"`
+}
+
+type Category {
+    Id int64 `json:"id"`
+    Name string `json:"name"`
+    Type int64 `json:"type"`
+    Sort int64 `json:"sort"`
+    Status int64 `json:"status"`
+    CreateUser int64 `json:"createUser"`
+    UpdateUser int64 `json:"updateUser"`
+    CreateTime string `json:"createTime"`
+    UpdateTime string `json:"updateTime"`
+}
+
+type (
+    GetCategoryListReq {
+    }
+    GetCategoryListResp {
+        Default
+        Categories []*Category `json:"data"`
+    }
+)
+
+type Setmeal {
+    Id int64 `json:"id"`
+    Name string `json:"name"`
+    Pic string `json:"pic"`
+    Detail string `json:"detail"`
+    Price float64 `json:"price"`
+    Status int64 `json:"status"`
+    CategoryId int64 `json:"categoryId"`
+    CreateUser int64 `json:"createUser"`
+    UpdateUser int64 `json:"updateUser"`
+    CreateTime string `json:"createTime"`
+    UpdateTime string `json:"updateTime"`
+}
+
+type (
+    GetSetmealsByCategoryIdReq {
+        CategoryId int64 `path:"categoryId"`
+    }
+    GetSetmealsByCategoryIdQueryReq {
+        CategoryId int64 `json:"categoryId"`
+    }
+    GetSetmealsByCategoryIdResp {
+        Default
+        Setmeals []*Setmeal `json:"data"`
+    }
+)
+
+type SetmealDishes {
+    Id int64 `json:"id"`
+    Name string `json:"name"`
+    Price float64 `json:"price"`
+    Copies int64 `json:"copies"`
+    Pic string `json:"pic"`
+    SetmealId int64 `json:"setmealId"`
+    DishId int64 `json:"dishId"`
+}
+
+type SetmealWithDishes {
+    Id int64 `json:"id"`
+    Name string `json:"name"`
+    Pic string `json:"pic"`
+    Detail string `json:"detail"`
+    Price float64 `json:"price"`
+    Status int64 `json:"status"`
+    CategoryId int64 `json:"categoryId"`
+    UpdateTime string `json:"updateTime"`
+    SetmealDishes []*SetmealDishes `json:"setmealDishes"`
+}
+
+type (
+    GetSetmealsByIdReq {
+        Id int64 `path:"id"`
+    }
+    GetSetmealsByIdResp {
+        Default
+        Setmeals *SetmealWithDishes `json:"data"`
+    }
+)
+
+type DishSimple {
+    Name string `json:"name"`
+    Pic string `json:"pic"`
+    Detail string `json:"detail"`
+    Copies int64 `json:"copies"`
+}
+type (
+    GetDishSimplesByIdReq {
+        Id int64 `path:"id"`
+    }
+    GetDishSimplesByIdResp {
+        Default
+        DishSimples []*DishSimple
+    }
+)
+
+type Flavor {
+    Id int64 `json:"id"`
+    Name string `json:"name"`
+    List string `json:"list"`
+    DishId int64 `json:"dishId"`
+}
+type Dish {
+    Id int64 `json:"id"`
+    Name string `json:"name"`
+    Pic string `json:"pic"`
+    Detail string `json:"detail"`
+    Price float64 `json:"price"`
+    Status int64 `json:"status"`
+    CategoryId int64 `json:"categoryId"`
+    UpdateTime string `json:"updateTime"`
+    Flavors []*Flavor `json:"flavors"`
+}
+
+type (
+    GetDishesByCategoryIdReq {
+        CategoryId int64 `path:"categoryId"`
+    }
+    GetDishesByCategoryIdQueryReq {
+        CategoryId int64 `json:"categoryId"`
+    }
+    GetDishesByCategoryIdResp {
+        Default
+        Dishes []*Dish `json:"data"`
+    }
+)
+
+type (
+    GetDishesByIdReq {
+        DishId int64 `path:"dishId"`
+    }
+    GetDishesByIdResp {
+        Default
+        Dishs Dish `json:"data"`
+    }
+)

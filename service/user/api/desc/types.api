@@ -1,0 +1,57 @@
+type Default {
+    Code int64 `json:"code"`
+    Msg string `json:"msg"`
+}
+
+type (
+    Login {
+        Id string `json:"id"`
+        OpenId string `json:"openid"`
+        Token string `json:"token"`
+    }
+    LoginReq {
+        Code string `json:"code"`
+    }
+    LoginResp {
+        Default
+        Data Login `json:"data"`
+    }
+)
+
+type (
+    User {
+        Id int64 `json:"id"`                              // 用户id
+        Name string `json:"name"`
+        OpenId string `json:"openid"`
+        Phone string `json:"phone"`
+        Gender int `json:"gender"`
+        IdNumber string `json:"idNumber"`
+        Pic string `json:"pic"`
+        CreateTime string `json:"createTime"`
+    }
+
+    UserinfoReq {
+        UserId string `path:"id"`        // 用户id
+    }
+
+    UserinfoResp {
+        Default
+        User User `json:"data"`                       // 用户信息
+    }
+)
+
+type (
+    UpdateUserReq {
+        Id string `json:"id"`                              // 用户id
+        Name string `json:"name"`
+        Phone string `json:"phone"`
+        Gender int64 `json:"gender"`
+        Pic string `json:"pic"`
+    }
+
+    UpdateUserResp {
+        Default         // 用户信息
+    }
+)
+
+

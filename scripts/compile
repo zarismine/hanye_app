@@ -1,0 +1,47 @@
+# user_api
+cp ./service/user/api/etc/user.yaml ./output/user_api
+CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-s -w" -o ./output/user_api/user_api ./service/user/api/user.go
+
+# user_rpc
+cp ./service/user/rpc/etc/user.yaml ./output/user_rpc
+CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-s -w" -o ./output/user_rpc/user_rpc ./service/user/rpc/user.go
+
+# address_api
+mkdir ./output/address_api
+cp ./service/address/api/etc/address.yaml ./output/address_api
+CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-s -w" -o ./output/address_api/address_api ./service/address/api/address.go
+
+# address_rpc
+mkdir ./output/address_rpc
+cp ./service/address/rpc/etc/address.yaml ./output/address_rpc
+CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-s -w" -o ./output/address_rpc/address_rpc ./service/address/rpc/address.go
+
+# meal_api
+mkdir ./output/meal_api
+cp ./service/meal/api/etc/meal.yaml ./output/meal_api
+CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-s -w" -o ./output/meal_api/meal_api ./service/meal/api/meal.go
+
+# meal_rpc
+mkdir ./output/meal_rpc
+cp ./service/meal/rpc/etc/meal.yaml ./output/meal_rpc
+CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-s -w" -o ./output/meal_rpc/meal_rpc ./service/meal/rpc/meal.go
+
+# cart_api
+mkdir ./output/cart_api
+cp ./service/cart/api/etc/cart.yaml ./output/cart_api
+CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-s -w" -o ./output/cart_api/cart_api ./service/cart/api/cart.go
+
+# cart_rpc
+mkdir ./output/cart_rpc
+cp ./service/cart/rpc/etc/cart.yaml ./output/cart_rpc
+CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-s -w" -o ./output/cart_rpc/cart_rpc ./service/cart/rpc/cart.go
+
+# order_api
+mkdir ./output/order_api
+cp ./service/order/api/etc/order.yaml ./output/order_api
+CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-s -w" -o ./output/order_api/order_api ./service/order/api/order.go
+
+# order_rpc
+mkdir ./output/order_rpc
+cp ./service/order/rpc/etc/order.yaml ./output/order_rpc
+CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-s -w" -o ./output/order_rpc/order_rpc ./service/order/rpc/order.go

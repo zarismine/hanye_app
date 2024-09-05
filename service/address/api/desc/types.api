@@ -1,0 +1,96 @@
+type Default {
+    Code int64 `json:"code"`
+    Msg string `json:"msg"`
+}
+
+type Address {
+    //    Id           int    `json:"id"`
+    UserId string `json:"userId,optional"`
+    Consignee string `json:"consignee"`
+    Phone string `json:"phone"`
+    Gender int64 `json:"gender"`
+    ProvinceCode string `json:"provinceCode"`
+    ProvinceName string `json:"provinceName"`
+    CityCode string `json:"cityCode"`
+    CityName string `json:"cityName"`
+    DistrictCode string `json:"districtCode"`
+    DistrictName string `json:"districtName"`
+    Detail string `json:"detail"`
+    Label string `json:"label"`
+    IsDefault int64 `json:"isDefault,optional"`
+}
+
+type AddressWithId {
+    Id int64 `json:"id"`
+    Address
+}
+
+type (
+    AddressReq {
+        Address
+    }
+    AddressResp {
+        Default
+    }
+)
+
+type (
+    GetAddressListReq {
+        UserId string `json:"userId,optional"`
+    }
+    GetAddressListResp {
+        Default
+        Addresses []*AddressWithId `json:"data"`
+    }
+)
+
+type (
+    GetDefaultAddressReq {
+        UserId string `json:"userId,optional"`
+    }
+    GetDefaultAddressResp {
+        Default
+        AddressInfo *AddressWithId `json:"data"`
+    }
+)
+
+type (
+    GetAddressByIdReq {
+        Id int64 `path:"id"`
+        UserId string `json:"userId,optional"`
+    }
+    GetAddressByIdResp {
+        Default
+        AddressInfo *AddressWithId `json:"data"`
+    }
+)
+
+type (
+    UpdateAddressByIdReq {
+        AddressWithId
+        UserId string `json:"userId,optional"`
+    }
+    UpdateAddressByIdResp {
+        Default
+    }
+)
+
+type (
+    SetDefaultAddressReq {
+        Id int64 `json:"id"`
+        UserId string `json:"userId,optional"`
+    }
+    SetDefaultAddressResp {
+        Default
+    }
+)
+
+type (
+    DeleteAddressByIdReq {
+        Id int64 `path:"id"`
+        UserId string `json:"userId,optional"`
+    }
+    DeleteAddressByIdResp {
+        Default
+    }
+)

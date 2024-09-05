@@ -1,0 +1,94 @@
+syntax = "proto3";
+
+option go_package = "./pb";
+
+package pb;
+
+
+//model
+message Address {
+  string consignee = 1;
+  string phone = 2;
+  int64 gender = 3;
+  string provinceCode = 4;
+  string provinceName = 5;
+  string cityCode = 6;
+  string cityName = 7;
+  string districtCode = 8;
+  string districtName = 9;
+  string detail = 10;
+  string label = 11;
+  int64 isDefault = 12;
+  int64 id = 13;
+  string userId = 14;
+}
+
+
+//req 、resp
+message AddAddressReq {
+  Address address = 1;
+}
+message AddAddressResp {
+  int64 code = 1;
+}
+
+message GetAddressListReq {
+  string userId = 1;
+}
+message GetAddressListResp {
+  repeated Address addresses = 1;
+  int64 code = 2;
+}
+
+message GetAddressReq {
+  int64 addressId = 1;
+  string userId = 2;
+}
+message GetAddressResp {
+  Address address = 1;
+  int64 code = 2;
+}
+
+message GetDefaultAddressReq {
+  string userId = 1;
+}
+message GetDefaultAddressResp {
+  Address address = 1;
+  int64 code = 2;
+}
+
+message UpdateAddressReq {
+  Address address = 1;
+  string userId = 2;
+}
+message UpdateAddressResp {
+  int64 code = 1;
+}
+
+message SetDefaultAddressReq {
+  int64 addressId = 1;
+  string userId = 2;
+}
+message SetDefaultAddressResp {
+  int64 code = 1;
+}
+
+message DeleteAddressReq {
+  int64 addressId = 1;
+  string userId = 2;
+}
+message DeleteAddressResp {
+  int64 code = 1;
+}
+//service
+service address {
+  rpc addAddress(AddAddressReq) returns(AddAddressResp);
+  rpc getAddressList(GetAddressListReq) returns(GetAddressListResp);
+  rpc getAddress(GetAddressReq) returns(GetAddressResp);
+  rpc getDefaultAddress(GetDefaultAddressReq) returns(GetDefaultAddressResp);
+  rpc updateAddress(UpdateAddressReq) returns(UpdateAddressResp);
+  rpc setDefaultAddress(SetDefaultAddressReq) returns(SetDefaultAddressResp);
+  rpc deleteAddress(DeleteAddressReq) returns(DeleteAddressResp);
+}
+
+

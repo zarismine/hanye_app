@@ -1,0 +1,31 @@
+syntax = "v1"
+
+info (
+	title: "user-api"
+	desc:  "user-api"
+)
+
+import (
+	"types.api"
+)
+
+@server (
+	prefix: /user
+)
+service user {
+	@handler login
+	post /user/login (LoginReq) returns (LoginResp)
+}
+
+@server (
+	prefix:     /user
+	middleware: JwtAuthMiddleware
+)
+service user {
+	@handler updateuser
+	put /user (UpdateUserReq) returns (UpdateUserResp)
+
+	@handler userinfo
+	get /user/:id (UserinfoReq) returns (UserinfoResp)
+}
+

@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+option go_package = "./pb";
+
+package pb;
+
+message Cart {
+  int64 id = 1;
+  string name = 2;
+  string pic = 3;
+  string userId = 4;
+  int64 setmealId = 5;
+  int64 dishId = 6;
+  string dishFlavor = 7;
+  int64 number = 8;
+  double amount = 9;
+  string createTime = 10;
+}
+
+message AddSubCartReq {
+  string name = 1;
+  string pic = 2;
+  string userId = 3;
+  int64 setmealId = 4;
+  int64 dishId = 5;
+  string dishFlavor = 6;
+  int64 number = 7;
+  double amount = 8;
+}
+message AddSubCartResp {
+  int64 code = 1;
+}
+
+message GetCartListReq {
+  string userId = 1;
+}
+message GetCartListResp {
+  int64 code = 1;
+  repeated Cart carts = 2;
+}
+
+message CleanCartReq {
+  string userId = 1;
+}
+message CleanCartResp {
+  int64 code = 1;
+}
+
+service cart {
+  rpc addSubCart(AddSubCartReq) returns (AddSubCartResp);
+  rpc getCartList(GetCartListReq) returns (GetCartListResp);
+  rpc cleanCart(CleanCartReq) returns (CleanCartResp);
+}

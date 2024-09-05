@@ -1,0 +1,38 @@
+syntax = "v1"
+
+info (
+	title: "address-api"
+	desc:  "address-api"
+)
+
+import (
+	"types.api"
+)
+
+@server (
+	prefix:     user/address
+	middleware: JwtAuthMiddleware
+)
+service address {
+	@handler addAddress
+	post / (AddressReq) returns (AddressResp)
+
+	@handler getAddressList
+	get /list (GetAddressListReq) returns (GetAddressListResp)
+
+	@handler getDefaultAddress
+	get /default (GetDefaultAddressReq) returns (GetDefaultAddressResp)
+
+	@handler getAddressById
+	get /:id (GetAddressByIdReq) returns (GetAddressByIdResp)
+
+	@handler updateAddressById
+	put / (UpdateAddressByIdReq) returns (UpdateAddressByIdResp)
+
+	@handler setDefaultAddress
+	put /default (SetDefaultAddressReq) returns (SetDefaultAddressResp)
+
+	@handler deleteAddressById
+	delete /:id (DeleteAddressByIdReq) returns (DeleteAddressByIdResp)
+}
+

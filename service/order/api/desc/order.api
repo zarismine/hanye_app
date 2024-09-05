@@ -1,0 +1,49 @@
+syntax = "v1"
+
+info (
+	title: "order-api"
+	desc:  "order-api"
+)
+
+import (
+	"types.api"
+)
+
+@server (
+	prefix:     user/order
+	middleware: JwtAuthMiddleware
+)
+service order {
+	@handler unPayOrderCount
+	get /unPayOrderCount (UnPayOrderCountReq) returns (UnPayOrderCountResp)
+
+	@handler submit
+	post /submit (SubmitReq) returns (SubmitResp)
+
+	@handler payment
+	put /payment (PaymentReq) returns (PaymentResp)
+
+	@handler orderDetail
+	get /orderDetail/:id (OrderDetailReq) returns (OrderDetailResp)
+
+	@handler historyOrders
+	get /historyOrders (HistoryOrdersReq) returns (HistoryOrdersResp)
+
+	@handler cancel
+	put /cancel/:id (CancelOrderReq) returns (CancelOrderResp)
+
+	@handler reOrder
+	post /reOrder/:id (ReOrderReq) returns (ReOrderResp)
+
+	@handler reminder
+	get /reminder/:id (ReminderReq) returns (ReminderResp)
+}
+
+@server (
+	prefix: ws
+)
+service order {
+	@handler websocket
+	get /:userId (WebsocketReq)
+}
+

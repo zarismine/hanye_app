@@ -1,0 +1,30 @@
+Name: address
+Host: 0.0.0.0
+Port: 8183
+maxConns: 8000 # 请求最大连接数
+Timeout: 5000 # api请求超时时间
+CpuThreshold: 800 # cpu线程阈值
+
+MealRpcConf:
+  Etcd:
+    Hosts:
+      - 192.168.221.131:2379
+    Key: meal.rpc
+
+Log:
+  ServiceName: meal
+  Mode: file
+  Path: logs
+  Level: info
+  Encoding: plain
+  KeepDays: 7
+
+
+RedisConf:
+  Host: 192.168.221.131:6379
+
+
+Prometheus:
+  Host: 0.0.0.0
+  Port: 9183
+  Path: /metrics

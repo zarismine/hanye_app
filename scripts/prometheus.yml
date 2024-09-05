@@ -1,0 +1,71 @@
+global:
+  scrape_interval: 15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:19090']
+
+  - job_name: 'hanye'
+    static_configs:
+      # 目标的采集地址
+      - targets: ['hanye-user-rpc:9081']
+        labels:
+          # 自定义标签
+          app: 'user-rpc'
+          env: 'test'
+      
+      - targets: ['hanye-user-api:9181']
+        labels:
+          # 自定义标签
+          app: 'user-api'
+          env: 'test'
+
+      - targets: [ 'hanye-address-rpc:9082' ]
+        labels:
+          # 自定义标签
+          app: 'address-rpc'
+          env: 'test'
+
+      - targets: ['hanye-address-api:9182']
+        labels:
+          # 自定义标签
+          app: 'address-api'
+          env: 'test'
+
+      - targets: [ 'hanye-meal-rpc:9083' ]
+        labels:
+          # 自定义标签
+          app: 'meal-rpc'
+          env: 'test'
+
+      - targets: ['hanye-meal-api:9183']
+        labels:
+          # 自定义标签
+          app: 'meal-api'
+          env: 'test'
+
+      - targets: [ 'hanye-cart-rpc:9084' ]
+        labels:
+          # 自定义标签
+          app: 'cart-rpc'
+          env: 'test'
+
+      - targets: ['hanye-cart-api:9184']
+        labels:
+          # 自定义标签
+          app: 'cart-api'
+          env: 'test'
+
+      - targets: [ 'hanye-order-rpc:9085' ]
+        labels:
+          # 自定义标签
+          app: 'order-rpc'
+          env: 'test'
+
+      - targets: ['hanye-order-api:9185']
+        labels:
+          # 自定义标签
+          app: 'order-api'
+          env: 'test'

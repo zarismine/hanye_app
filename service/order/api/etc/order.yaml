@@ -1,0 +1,45 @@
+Name: order
+Host: 0.0.0.0
+Port: 8185
+maxConns: 8000 # 请求最大连接数
+Timeout: 5000 # api请求超时时间
+CpuThreshold: 800 # cpu线程阈值
+
+CartRpcConf:
+  Etcd:
+    Hosts:
+      - 192.168.221.131:2379
+    Key: cart.rpc
+OrderRpcConf:
+  Etcd:
+    Hosts:
+      - 192.168.221.131:2379
+    Key: order.rpc
+AddressRpcConf:
+  Etcd:
+    Hosts:
+      - 192.168.221.131:2379
+    Key: address.rpc
+UserRpcConf:
+  Etcd:
+    Hosts:
+      - 192.168.221.131:2379
+    Key: user.rpc
+
+Log:
+  ServiceName: order
+  Mode: file
+  Path: logs
+  Level: info
+  Encoding: plain
+  KeepDays: 7
+
+
+RedisConf:
+  Host: 192.168.221.131:6379
+
+
+Prometheus:
+  Host: 0.0.0.0
+  Port: 9185
+  Path: /metrics

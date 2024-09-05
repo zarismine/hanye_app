@@ -1,0 +1,259 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: hanye-mysql
+    ports:
+      - 3306:3306
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --default-time_zone='+8:00'
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ???????
+      MYSQL_DATABASE: hanye
+      TZ: Asia/Shangha
+    networks:
+      - hanye
+    restart: unless-stopped
+  redis:
+    image: redis:7.2
+    container_name: hanye-redis
+    ports:
+      - 6379:6379
+    volumes:
+      - ./redis/redisData:/data
+    command: redis-server --requirepass ??????? --appendonly yes
+    privileged: true
+    restart: always
+    networks:
+      - hanye
+  grafana:
+    image: grafana/grafana-oss:10.2.0
+    container_name: hanye-grafana
+    ports:
+      - 19091:3000
+    volumes:
+      - ./scripts/grafanadata:/var/lib/grafana
+    networks:
+      - hanye
+    restart: unless-stopped
+    depends_on:
+      - prometheus
+  prometheus:
+    image: prom/prometheus:v2.41.0
+    container_name: hanye-prometheus
+    ports:
+      - 19090:9090
+    volumes:
+      - ./scripts/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./data/prometheus/data:/prometheus
+    networks:
+      - hanye
+    restart: unless-stopped
+  etcd:
+    image: bitnami/etcd:3.4.27
+    container_name: hanye-etcd
+    environment:
+      ALLOW_NONE_AUTHENTICATION: "yes"
+      ETCD_ADVERTISE_CLIENT_URLS : http://192.168.221.131:2379
+    ports:
+      - 2379:2379
+    networks:
+      - hanye
+    restart: unless-stopped
+  #  kafka:
+  #    image: docker.io/bitnami/kafka:3.5
+  #    container_name: hanye-kafka
+  #    networks:
+  #      - hanye
+  #    ports:
+  #      - 9092:9092
+  #    volumes:
+  #      - "./scripts/kafka/data:/bitnami/kafka"
+  #    environment:
+  #      # KRaft settings
+  #      KAFKA_CFG_NODE_ID: 0
+  #      KAFKA_CFG_PROCESS_ROLES: controller,broker
+  #      KAFKA_CFG_CONTROLLER_QUORUM_VOTERS: 0@kafka:9093
+  #      # Listeners
+  #      KAFKA_CFG_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9093
+  #      KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+  #      KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+  #      KAFKA_CFG_CONTROLLER_LISTENER_NAMES: CONTROLLER
+  #      # KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE: true
+  hanye-user-rpc:
+    image: hanye-user-rpc:1.0
+    build:
+      context : .
+      dockerfile: output/user_rpc/Dockerfile
+    container_name: hanye-user-rpc
+    networks:
+      - hanye
+    depends_on:
+      - mysql
+      - redis
+    restart: unless-stopped
+    volumes:
+      - ./output/user_rpc/logs:/logs
+      - ./output/user_rpc/user_rpc.yaml:/user_rpc.yaml
+  hanye-user-api:
+    image: hanye-user-api:1.0
+    build:
+      context : .
+      dockerfile: output/user_api/Dockerfile
+    container_name: hanye-user-api
+    networks:
+      - hanye
+    depends_on:
+      - mysql
+      - redis
+      - hanye-user-rpc
+    ports:
+      - 8181:8181
+    restart: unless-stopped
+    volumes:
+      - ./output/user_api/logs:/logs
+      - ./output/user_api/user_api.yaml:/user_api.yaml
+  hanye-address-rpc:
+    image: hanye-address-rpc:1.0
+    build:
+      context : .
+      dockerfile: output/address_rpc/Dockerfile
+    container_name: hanye-address-rpc
+    networks:
+      - hanye
+    depends_on:
+      - mysql
+      - redis
+    restart: unless-stopped
+    volumes:
+      - ./output/address_rpc/logs:/logs
+      - ./output/address_rpc/address_rpc.yaml:/address_rpc.yaml
+  hanye-address-api:
+    image: hanye-address-api:1.0
+    build:
+      context : .
+      dockerfile: output/address_api/Dockerfile
+    container_name: hanye-address-api
+    networks:
+      - hanye
+    depends_on:
+      - mysql
+      - redis
+      - hanye-address-rpc
+    ports:
+      - 8182:8182
+    restart: unless-stopped
+    volumes:
+      - ./output/address_api/logs:/logs
+      - ./output/address_api/address_api.yaml:/address_api.yaml
+  hanye-meal-rpc:
+    image: hanye-meal-rpc:1.0
+    build:
+      context : .
+      dockerfile: output/meal_rpc/Dockerfile
+    container_name: hanye-meal-rpc
+    networks:
+      - hanye
+    depends_on:
+      - mysql
+      - redis
+    restart: unless-stopped
+    volumes:
+      - ./output/meal_rpc/logs:/logs
+      - ./output/meal_rpc/meal_rpc.yaml:/meal_rpc.yaml
+  hanye-meal-api:
+    image: hanye-meal-api:1.0
+    build:
+      context : .
+      dockerfile: output/meal_api/Dockerfile
+    container_name: hanye-meal-api
+    networks:
+      - hanye
+    depends_on:
+      - mysql
+      - redis
+      - hanye-meal-rpc
+    ports:
+      - 8183:8183
+    restart: unless-stopped
+    volumes:
+      - ./output/meal_api/logs:/logs
+      - ./output/meal_api/meal_api.yaml:/meal_api.yaml
+  hanye-cart-rpc:
+    image: hanye-cart-rpc:1.0
+    build:
+      context : .
+      dockerfile: output/cart_rpc/Dockerfile
+    container_name: hanye-cart-rpc
+    networks:
+      - hanye
+    depends_on:
+      - mysql
+      - redis
+    restart: unless-stopped
+    volumes:
+      - ./output/cart_rpc/logs:/logs
+      - ./output/cart_rpc/cart_rpc.yaml:/cart_rpc.yaml
+  hanye-cart-api:
+    image: hanye-cart-api:1.0
+    build:
+      context : .
+      dockerfile: output/cart_api/Dockerfile
+    container_name: hanye-cart-api
+    networks:
+      - hanye
+    depends_on:
+      - mysql
+      - redis
+      - hanye-cart-rpc
+      - hanye-meal-rpc
+    ports:
+      - 8184:8184
+    restart: unless-stopped
+    volumes:
+      - ./output/cart_api/logs:/logs
+      - ./output/cart_api/cart_api.yaml:/cart_api.yaml
+  hanye-order-rpc:
+    image: hanye-order-rpc:1.0
+    build:
+      context : .
+      dockerfile: output/order_rpc/Dockerfile
+    container_name: hanye-order-rpc
+    networks:
+      - hanye
+    depends_on:
+      - mysql
+      - redis
+    restart: unless-stopped
+    volumes:
+      - ./output/order_rpc/logs:/logs
+      - ./output/order_rpc/order_rpc.yaml:/order_rpc.yaml
+  hanye-order-api:
+    image: hanye-order-api:1.0
+    build:
+      context : .
+      dockerfile: output/order_api/Dockerfile
+    container_name: hanye-order-api
+    networks:
+      - hanye
+    depends_on:
+      - mysql
+      - redis
+      - hanye-cart-rpc
+      - hanye-address-rpc
+      - hanye-user-rpc
+      - hanye-order-rpc
+    ports:
+      - 8185:8185
+    restart: unless-stopped
+    volumes:
+      - ./output/order_api/logs:/logs
+      - ./output/order_api/order_api.yaml:/order_api.yaml
+networks:
+  hanye:
+    driver: bridge
+
+volumes:
+  hanye:

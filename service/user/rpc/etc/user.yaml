@@ -1,0 +1,33 @@
+Name: user.rpc
+ListenOn: 0.0.0.0:8081
+Timeout: 5000
+Etcd:
+  Hosts:
+    - 192.168.221.131:2379
+  Key: user.rpc
+DB:
+  DataSource: root:???????@tcp(192.168.221.131:3306)/hanye?charset=utf8mb4&parseTime=true&loc=Local
+
+Cache:
+  - Host: 192.168.221.131:6379
+#    Pass: "khr"
+
+RedisConf:
+  Host: 192.168.221.131:6379
+#  Pass: "khr"
+
+Log:
+  ServiceName: user.rpc
+  Mode: file
+  Path: logs/ordinary-log/user/rpc
+  Level: info
+  Encoding: plain
+  KeepDays: 7
+
+Prometheus:
+  Host: 0.0.0.0
+  Port: 9081
+  Path: /metrics
+
+DefaultPic:
+  https://q1.qlogo.cn/g?b=qq&nk=1234567&s=640

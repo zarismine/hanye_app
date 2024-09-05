@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+option go_package = "./pb";
+
+package pb;
+
+
+//model
+message User {
+  int64 id = 1;
+  string phone = 2;
+  string name =3;
+  int64  gender = 4;
+  string idNumber = 5;
+  string pic = 6;
+  string openid = 7;
+  string createTime = 8;
+}
+
+
+//req 、resp
+message AddUserReq {
+  string phone = 1;
+  string openid = 2;
+}
+
+message AddUserResp {
+  string id = 1;
+  int64 code = 2;
+}
+message GetUserInfoReq {
+  string id = 1;
+}
+message GetUserInfoResp {
+  User user = 1;
+  int64 code = 2;
+}
+
+
+message UpdateUserReq {
+  string idNumber = 1;
+  string name = 2;
+  string phone = 3;
+  int64 gender = 4;
+  string pic = 5;
+}
+
+message UpdateUserResp {
+  int64 code = 1;
+}
+
+//service
+service user {
+  rpc getUserInfo(GetUserInfoReq) returns(GetUserInfoResp);
+  rpc addUser(AddUserReq) returns(AddUserResp);
+  rpc updateUser(UpdateUserReq) returns(UpdateUserResp);
+}

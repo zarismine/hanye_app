@@ -1,0 +1,29 @@
+syntax = "v1"
+
+info (
+	title: "cart-api"
+	desc:  "cart-api"
+)
+
+import (
+	"types.api"
+)
+
+@server (
+	prefix:     user/cart
+	middleware: JwtAuthMiddleware
+)
+service cart {
+	@handler addCart
+	post /add (AddSubCartReq) returns (AddSubCartResp)
+
+	@handler subCart
+	put /sub (AddSubCartReq) returns (AddSubCartResp)
+
+	@handler getCartList
+	get /list (GetCartListReq) returns (GetCartListResp)
+
+	@handler cleanCart
+	delete /clean (CleanCartReq) returns (CleanCartResp)
+}
+

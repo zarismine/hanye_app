@@ -1,0 +1,133 @@
+syntax = "proto3";
+
+option go_package = "./pb";
+
+package pb;
+
+//model
+message Category {
+  int64 id = 1;
+  string name = 2;
+  int64 type = 3;
+  int64 sort = 4;
+  int64 status = 5;
+  int64 createUser = 6;
+  int64 updateUser = 7;
+  string createTime = 8;
+  string updateTime = 9;
+}
+
+message GetCategoryListReq {}
+message GetCategoryListResp {
+  repeated Category categories = 1;
+  int64 code = 2;
+}
+
+//model
+message Setmeal {
+  int64 id = 1;
+  string name = 2;
+  string pic = 3;
+  string detail = 4;
+  int64 status = 5;
+  int64 createUser = 6;
+  int64 updateUser = 7;
+  string createTime = 8;
+  string updateTime = 9;
+  double price = 10;
+  int64 categoryId = 11;
+}
+
+message GetSetmealsByCategoryIdReq {
+  int64 categoryId = 1;
+}
+message GetSetmealsByCategoryIdResp {
+  repeated Setmeal setmeals = 1;
+  int64 code = 2;
+}
+
+//model
+message SetmealDishes {
+  int64 id = 1;
+  string name = 2;
+  string pic = 3;
+  string detail = 4;
+  int64 copies = 5;
+  int64 setmealId = 6;
+  int64 dishId = 7;
+}
+message SetmealWithDishes {
+  int64 id = 1;
+  string name = 2;
+  string pic = 3;
+  string detail = 4;
+  int64 status = 5;
+  string updateTime = 6;
+  double price = 7;
+  int64 categoryId = 8;
+  repeated SetmealDishes setmealDishes = 9;
+}
+message GetSetmealsByIdReq {
+  int64 setmealId = 1;
+}
+message GetSetmealsByIdResp {
+  SetmealWithDishes setmeal = 1;
+  int64 code = 2;
+}
+
+message DishSimple {
+  string name = 1;
+  string pic = 2;
+  string detail = 3;
+  int64 copies = 4;
+}
+message GetDishSimplesByIdReq {
+  int64 setmealId = 1;
+}
+message GetDishSimplesByIdResp {
+  repeated DishSimple dishes = 1;
+  int64 code = 2;
+}
+//model
+message Flavor {
+  int64 id = 1;
+  string name = 2;
+  string list = 3;
+  int64 dishId = 4;
+}
+message Dish {
+  int64 id = 1;
+  string name = 2;
+  string pic = 3;
+  string detail = 4;
+  int64 status = 5;
+  double price = 6;
+  int64 categoryId = 7;
+  string updateTime = 8;
+  repeated Flavor flavors = 9;
+}
+
+message GetDishesByCategoryIdReq {
+  int64 categoryId = 1;
+}
+message GetDishesByCategoryIdResp {
+  repeated Dish dishes = 1;
+  int64 code = 2;
+}
+
+message GetDishesByIdReq {
+  int64 dishId = 1;
+}
+message GetDishesByIdResp {
+  Dish dish = 1;
+  int64 code = 2;
+}
+
+service meal {
+  rpc getCategoryList(GetCategoryListReq) returns(GetCategoryListResp);
+  rpc getSetmealsByCategoryId(GetSetmealsByCategoryIdReq) returns(GetSetmealsByCategoryIdResp);
+  rpc getSetmealsById(GetSetmealsByIdReq) returns(GetSetmealsByIdResp);
+  rpc getDishSimplesById(GetDishSimplesByIdReq) returns(GetDishSimplesByIdResp);
+  rpc getDishesByCategoryId(GetDishesByCategoryIdReq) returns(GetDishesByCategoryIdResp);
+  rpc getDishesById(GetDishesByIdReq) returns(GetDishesByIdResp);
+}

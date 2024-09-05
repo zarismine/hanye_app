@@ -1,0 +1,172 @@
+syntax = "proto3";
+
+option go_package = "./pb";
+
+package pb;
+
+message Order {
+  int64 id = 1;
+  string number = 2;
+  int64 status = 3;
+  string userId = 4;
+  int64 addressBookId = 5;
+  int64 orderTime = 6;
+  int64 checkoutTime = 7;
+  int64 payMethod = 8;
+  int64 payStatus = 9;
+  double amount = 10;
+  string remark = 11;
+  string phone = 12;
+  string address = 13;
+  string userName = 14;
+  string consignee = 15;
+  string cancelReason = 16;
+  string rejectReason = 17;
+  int64 cancelTime = 18;
+  int64 estimatedDeliveryTime = 19;
+  int64 deliveryStatus = 20;
+  int64 deliveryTime = 21;
+  double packAmount = 22;
+  int64 tablewareNumber = 23;
+  int64 tablewareStatus = 24;
+}
+
+message OrderDetail {
+  int64 id = 1;
+  string name = 2;
+  string pic = 3;
+  int64 orderId = 4;
+  int64 dishId = 5;
+  int64 setmealId = 6;
+  string dishFlavor = 7;
+  int64 number = 8;
+  double amount = 9;
+}
+
+message OrderWithDetail {
+  int64 id = 1;
+  string number = 2;
+  int64 status = 3;
+  string userId = 4;
+  int64 addressBookId = 5;
+  int64 orderTime = 6;
+  int64 checkoutTime = 7;
+  int64 payMethod = 8;
+  int64 payStatus = 9;
+  double amount = 10;
+  string remark = 11;
+  string phone = 12;
+  string address = 13;
+  string userName = 14;
+  string consignee = 15;
+  string cancelReason = 16;
+  string rejectReason = 17;
+  int64 cancelTime = 18;
+  int64 estimatedDeliveryTime = 19;
+  int64 deliveryStatus = 20;
+  int64 deliveryTime = 21;
+  double packAmount = 22;
+  int64 tablewareNumber = 23;
+  int64 tablewareStatus = 24;
+  string orderDishes = 25;
+  repeated OrderDetail orderDetailList = 26;
+}
+message GetOrderByIdReq {
+  int64 orderId = 1;
+  string userId = 2;
+}
+message GetOrderByIdResp {
+  int64 code = 1;
+  Order order = 2;
+  string orderDishes = 3;
+  repeated OrderDetail orderDetailList = 4;
+}
+
+message UnPayOrderCountReq {
+  string userId = 1;
+}
+message UnPayOrderCountResp {
+  int64 code = 1;
+  int64 count = 2;
+}
+
+message SubmitReq {
+  string number = 1;
+  int64 status = 2;
+  string userId = 3;
+  int64 addressBookId = 4;
+  int64 orderTime = 6;
+  int64 payMethod = 7;
+  int64 payStatus = 8;
+  double amount = 9;
+  string remark = 10;
+  string phone = 11;
+  string address = 12;
+  string userName = 13;
+  string consignee = 14;
+//  string cancelReason = 15;
+//  string rejectReason = 17;
+//  int64 cancelTime = 18;
+  int64 estimatedDeliveryTime = 15;
+  int64 deliveryStatus = 16;
+//  int64 deliveryTime = 21;
+  double packAmount = 17;
+  int64 tablewareNumber = 18;
+  int64 tablewareStatus = 19;
+  repeated OrderDetail orderDetailList = 20;
+}
+message SubmitResp {
+  int64 code = 1;
+  int64 id = 2;
+  string orderNumber = 3;
+  double orderAmount = 4;
+  int64 orderTime = 5;
+}
+
+message PaymentReq {
+  string orderNumber = 1;
+  int64 payMethod = 2;
+  string userId = 3;
+}
+message PaymentResp {
+  int64 code = 1;
+  int64 id = 2;
+}
+
+message HistoryOrdersReq {
+  int64 page = 1;
+  int64 pageSize = 2;
+  int64 status = 3;
+  string userId = 4;
+}
+message HistoryOrdersResp {
+  int64 code = 1;
+  int64 total = 2;
+  repeated OrderWithDetail orderWithDetails = 3;
+}
+
+message CancelReq {
+  int64 orderId = 1;
+  string userId = 2;
+}
+message CancelResp {
+  int64 code = 1;
+}
+
+message ReOrderReq {
+  int64 orderId = 1;
+  string userId = 2;
+}
+message ReOrderResp {
+  int64 code = 1;
+}
+
+service order {
+  rpc getOrderById(GetOrderByIdReq) returns (GetOrderByIdResp);
+  rpc unPayOrderCount(UnPayOrderCountReq) returns (UnPayOrderCountResp);
+  rpc submit(SubmitReq) returns (SubmitResp);
+  rpc historyOrders(HistoryOrdersReq) returns (HistoryOrdersResp);
+  rpc payment(PaymentReq) returns (PaymentResp);
+  rpc cancel(CancelReq) returns (CancelResp);
+  rpc reOrder(ReOrderReq) returns (ReOrderResp);
+}

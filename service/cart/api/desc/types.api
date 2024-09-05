@@ -1,0 +1,51 @@
+type Default {
+    Code int64 `json:"code"`
+    Msg string `json:"msg"`
+}
+
+type CartReq {
+    DishId     int64    `json:"dishId,optional"`
+    SetmealId  int64    `json:"setmealId,optional"`
+    DishFlavor string   `json:"dishFlavor,optional"`
+}
+
+type (
+    AddSubCartReq {
+        UserId string `json:"userId,optional"`
+        CartReq
+    }
+    AddSubCartResp {
+        Default
+    }
+)
+
+type Cart {
+    Id         int    `json:"id"`
+    Name       string `json:"name"`
+    UserId     int    `json:"userId"`
+    DishId     int    `json:"dishId"`
+    SetmealId  int    `json:"setmealId"`
+    DishFlavor string `json:"dishFlavor"`
+    Number     int    `json:"number"`
+    Amount     int    `json:"amount"`
+    Pic        string `json:"pic"`
+    CreateTime string `json:"createTime"`
+}
+type (
+    GetCartListReq {
+        UserId string `json:"userId,optional"`
+    }
+    GetCartListResp {
+        Default
+        Carts []*Cart `json:"data"`
+    }
+)
+
+type (
+    CleanCartReq {
+        UserId string `json:"userId,optional"`
+    }
+    CleanCartResp {
+        Default
+    }
+)

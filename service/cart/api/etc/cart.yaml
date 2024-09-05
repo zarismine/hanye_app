@@ -1,0 +1,35 @@
+Name: cart
+Host: 0.0.0.0
+Port: 8184
+maxConns: 8000 # 请求最大连接数
+Timeout: 5000 # api请求超时时间
+CpuThreshold: 800 # cpu线程阈值
+
+CartRpcConf:
+  Etcd:
+    Hosts:
+      - 192.168.221.131:2379
+    Key: cart.rpc
+MealRpcConf:
+  Etcd:
+    Hosts:
+      - 192.168.221.131:2379
+    Key: meal.rpc
+
+Log:
+  ServiceName: cart
+  Mode: file
+  Path: logs
+  Level: info
+  Encoding: plain
+  KeepDays: 7
+
+
+RedisConf:
+  Host: 192.168.221.131:6379
+
+
+Prometheus:
+  Host: 0.0.0.0
+  Port: 9184
+  Path: /metrics
